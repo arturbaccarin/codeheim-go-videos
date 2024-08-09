@@ -23,11 +23,25 @@ var enqueuer = work.NewEnqueuer("demo_app", redisPool)
 func main() {
 	_, err := enqueuer.Enqueue("email",
 		work.Q{
-			"email":   "a@a.com",
-			"subject": "test",
-			"message": "test",
+			"userID":  10,
+			"subject": "just testing",
+		})
+	// work.Q{
+	// 	"email":   "a@a.com",
+	// 	"subject": "test",
+	// 	"message": "test",
+	// })
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err = enqueuer.Enqueue("report",
+		work.Q{
+			"userID": 5,
 		})
 	if err != nil {
 		log.Fatal(err)
 	}
 }
+
+// workwebui -redis="redis://localhost:6379" -ns="demo_app" -listen=":5040"
