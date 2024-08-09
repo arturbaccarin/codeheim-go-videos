@@ -94,7 +94,12 @@ func (c *Context) SendEmail(job *work.Job) error {
 
 func (c *Context) Report(job *work.Job) error {
 	fmt.Println("Preparing report...")
-	time.Sleep(time.Second * 10)
+
+	for i := range 360 {
+		time.Sleep(time.Second * 10)
+		job.Checkin("i = " + fmt.Sprintf(i))
+	}
+
 	// send the report via email
 	enqueuer.Enqueue("email", work.Q{"email": c.currentUser.Email, "subject": "report"})
 	return nil
